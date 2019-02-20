@@ -7,7 +7,7 @@
 </head>
 
 <body>
-BLE_Test_rev_0.4
+BLE_Test_rev_1.5
 <br>
 <button id="connect">接続</button>
 <button id="disconnect">切断</button>
@@ -31,9 +31,17 @@ var characteristic;
 
 // UUIDの登録
 var SERVICE_UUID         = '6926486a-34a8-11e9-b210-d663bd873d93';   // サービス
-var CHARACTERISTIC_UUID  = '692655f8-34a8-11e9-b210-d663bd873d93';   // キャラクタリスティック
- 
-  
+
+var SWITCH_UUID			 = '692655f8-34a8-11e9-b210-d663bd873d93';   // スイッチ
+var ADC_UUID  			 = '69264cd4-34a8-11e9-b210-d663bd873d93';   // A/D値
+var RESERVE_IN_UUID  	 = '69264e1e-34a8-11e9-b210-d663bd873d93';   // 予備入力
+var MESSAGE_UUID  		 = '692655f8-34a8-11e9-b210-d663bd873d93';   // メッセージ
+
+var LED1_UUID  			 = '692651b6-34a8-11e9-b210-d663bd873d93';   // LED1
+var LED2_UUID  			 = '6926530a-34a8-11e9-b210-d663bd873d93';   // LED2
+var RESERVE_OUT  		 = '6926544a-34a8-11e9-b210-d663bd873d93';   // 予備出力
+
+
 
 //ボタンイベントリスナー
 d3.select("#connect").on("click", connect);
@@ -66,7 +74,24 @@ function connect() {
   })
   .then(service => {
     console.log("service", service)
-    return service.getCharacteristic(CHARACTERISTIC_UUID)
+ //   return service.getCharacteristic(CHARACTERISTIC_UUID)
+ 
+     return Promise.all([
+      service.getCharacteristic(SWITCH_UUID)
+        .then( characteristic.addEventListener(SWITCH_UUID, onRecvSensorData);
+               characteristic.startNotifications();),
+        
+      service.getCharacteristic(ADC_UUID)
+        .then( characteristic.addEventListener(ADC_UUID, onRecvSensorData);
+               characteristic.startNotifications();),
+ 
+      service.getCharacteristic(RESERVE_IN_UUID)
+        .then( characteristic.addEventListener(RESERVE_IN_UUID, onRecvSensorData);
+               characteristic.startNotifications();),
+ 
+      service.getCharacteristic(MESSAGE_UUID)
+        .then( characteristic.addEventListener(MESSAGE_UUID, onRecvSensorData);
+               characteristic.startNotifications();) 
   })
   .then(chara => {
     console.log("characteristic", chara)
@@ -77,6 +102,21 @@ function connect() {
     console.log(error);
   });    
 }
+ 
+function onRecvSensorData(event) {//(1)
+
+    let characteristic = event.target; //(2)
+    let value = characteristic.value; //(3)
+
+	if(characteristic==SWITCH_UUID){ alert("通知あり"); }
+	
+    
+}
+
+function decodeValue(msb, lsb, gain){
+        return ((msb << 8) + lsb) * gain
+} 
+ 
  
 // メッセージを送信
 function sendMessage() {

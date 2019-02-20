@@ -7,7 +7,7 @@
 </head>
 
 <body>
-BLE_Test_rev_1.6
+BLE_Test_rev_1.7
 <br>
 <button id="connect">接続</button>
 <button id="disconnect">切断</button>
@@ -89,7 +89,7 @@ alert("通知あり2");
  
       service.getCharacteristic(MESSAGE_UUID)
         .then( characteristic.addEventListener(MESSAGE_UUID, onRecvSensorData);
-               characteristic.startNotifications();) 
+               characteristic.startNotifications();),
   })
   .then(chara => {
     console.log("characteristic", chara)

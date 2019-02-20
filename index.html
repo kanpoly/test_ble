@@ -32,7 +32,8 @@ var characteristic;
 // UUIDの登録
 var SERVICE_UUID         = '6926486a-34a8-11e9-b210-d663bd873d93';   // サービス
 var CHARACTERISTIC_UUID  = '692655f8-34a8-11e9-b210-d663bd873d93';   // キャラクタリスティック
-
+ 
+  
 
 //ボタンイベントリスナー
 d3.select("#connect").on("click", connect);
@@ -45,13 +46,13 @@ d3.select("#hexsend").on("click", sendHex);
 function connect() {
   let options = {};
 
-//  options.acceptAllDevices = true;    // すべてのデバイスを表示
+  options.acceptAllDevices = true;    // すべてのデバイスを表示
 
 //  特定のデバイスを表示
-  options.filters = [
-    {services: [SERVICE_UUID]},         // サービスUUIDの指定
-    {name: "BLE_01"}                    // デバイス名の指定
-  ];
+//  options.filters = [
+//    {services: [SERVICE_UUID]},         // サービスUUIDの指定
+//    {name: "BLE_01"}                    // デバイス名の指定
+//  ];
   
   navigator.bluetooth.requestDevice(options)
   .then(device => {

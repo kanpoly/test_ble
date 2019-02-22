@@ -87,14 +87,14 @@ function connect() {
  
 // メッセージを送信
 function sendMessage() {
-//  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
+  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
   var text = document.querySelector("#message").value;
   var arrayBuffe = new TextEncoder().encode(text);
   message_Characteristic.writeValue(arrayBuffe);        
 } 
 // メッセージを送信
 function sendHex() {
-//  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
+  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
   var text = document.querySelector("#message").value;
   var arrayBuffe = new TextEncoder().encode(text);
   sw_Characteristic.writeValue(arrayBuffe);        

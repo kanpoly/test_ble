@@ -64,8 +64,8 @@ let reserve_out_Characteristic;
 //ボタンイベントリスナー
 d3.select("#connect").on("click", connect);
 d3.select("#disconnect").on("click", disconnect);
-d3.select("#message_send").on("click", send_Message);
-d3.select("#message_rec").on("click", rec_Message);  
+d3.select("#message_send").on("click", send_message);
+d3.select("#message_rec").on("click", rec_message);  
 d3.select("#led1_send_on").on("click", send_led1_on);
 d3.select("#led1_send_off").on("click", send_led1_off);
 d3.select("#led2_send_on").on("click", send_led2_on);
@@ -124,7 +124,7 @@ function connect() {
 }
  
 // メッセージを送信
-function send_Message() {
+function send_message() {
   if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
   var text = document.querySelector("#val_message").value;
   var arrayBuffe = new TextEncoder().encode(text);

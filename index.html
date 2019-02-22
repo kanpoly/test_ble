@@ -22,6 +22,10 @@ LED1<br>
 <br>
 LED2<br>
 <button id="led2_send_on">ON</button> <button id="led2_send_off">OFF</button>
+  
+<input id="val_sw" value="0" />
+<button id="sw_get">SW状態受信</button>  
+  
 
   
 
@@ -61,7 +65,7 @@ d3.select("#led1_send_on").on("click", send_led1_on);
 d3.select("#led1_send_off").on("click", send_led1_off);
 d3.select("#led2_send_on").on("click", send_led2_on); 
 d3.select("#led2_send_off").on("click", send_led2_off);  
-  
+d3.select("#sw_get").on("click", get_sw);   
   
   
   //デバイスに接続する
@@ -91,7 +95,7 @@ function connect() {
         service.getCharacteristic(MESSAGE_UUID),
         service.getCharacteristic(LED1_UUID),
         service.getCharacteristic(LED2_UUID),      
-      
+        service.getCharacteristic(SWITCH_UUID),       
       ])
     
   })
@@ -102,8 +106,11 @@ function connect() {
     message_Characteristic = characteristic[0];
     led1_Characteristic = characteristic[1];
     led2_Characteristic = characteristic[2];
+
+    sw_Characteristic = characteristic[3];
     
       console.log("success:connect BLE");    
+
   })  
   .catch(error => {
     console.log(error);
@@ -140,6 +147,22 @@ function send_led2_on() {
 function send_led2_off() {
   if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
   led2_Characteristic.writeValue(new TextEncoder().encode("OFF"));        
+}
+  
+function get_sw() {
+let sw_val;
+
+  try {
+    sw_Characteristic.readValue()
+      .then(value => {
+        sw_val = value.buffer;
+        console.log(new Uint8Array(sw_val));
+        document.querySelector("#val_sw").value = new TextDecoder("utf-8").decode(sw_val);
+      });
+  }
+  catch (e) {
+    console.log(e);
+  }
 }
   
 //BEL切断処理

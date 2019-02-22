@@ -42,7 +42,7 @@ function connect() {
   // 特定のデバイスを表示
   options.filters = [
     {services: [SERVICE_UUID]},         // サービスUUIDの指定
-    {name: "BLE_01"}                    // デバイス名の指定
+//    {name: "BLE_01"}                    // デバイス名の指定
   ];
   
   navigator.bluetooth.requestDevice(options)

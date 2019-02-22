@@ -79,7 +79,7 @@ alert("通知あり2");
         .then( characteristic.addEventListener(SWITCH_UUID, onRecvSensorData)
                characteristic.startNotifications();),
         
-      service.getCharacteristic(ADC_UUID)
+/*      service.getCharacteristic(ADC_UUID)
         .then( characteristic.addEventListener(ADC_UUID, onRecvSensorData)
                characteristic.startNotifications();),
  
@@ -90,6 +90,7 @@ alert("通知あり2");
       service.getCharacteristic(MESSAGE_UUID)
         .then( characteristic.addEventListener(MESSAGE_UUID, onRecvSensorData)
                characteristic.startNotifications();),
+*/
   })
   .then(chara => {
     console.log("characteristic", chara)

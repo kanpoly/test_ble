@@ -7,7 +7,7 @@
 </head>
 
 <body>
-BLE_Test 003
+BLE_Test 004
 <br>
 <br>  
 <button id="connect">接続</button>
@@ -126,7 +126,7 @@ function connect() {
 // メッセージを送信
 function send_message() {
   if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
-  var text = document.querySelector("#val_message").value;
+  var text = document.querySelector("#message").value;
   var arrayBuffe = new TextEncoder().encode(text);
   message_Characteristic.writeValue(arrayBuffe);        
 } 
@@ -181,8 +181,8 @@ let message_val=0;
     message_Characteristic.readValue()
       .then(value => {
          message_val = value;
-        console.log(new Uint8Array(sw_val));
-        document.querySelector("#val_message").value = new TextDecoder("utf-8").decode(message_val);
+        console.log(new Uint8Array(message_val));
+        document.querySelector("#message").value = new TextDecoder("utf-8").decode(message_val);
       });
   }
   catch (e) {

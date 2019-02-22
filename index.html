@@ -29,7 +29,13 @@ var bluetoothDevice;
 var characteristic;
 // UUIDの登録
 var SERVICE_UUID         = '6926486a-34a8-11e9-b210-d663bd873d93';   // サービス
-var CHARACTERISTIC_UUID  = '692655f8-34a8-11e9-b210-d663bd873d93';   // キャラクタリスティック
+var MESSAGE_UUID         = '692655f8-34a8-11e9-b210-d663bd873d93';   // メッセージ
+var LED1_UUID  		       = '692651b6-34a8-11e9-b210-d663bd873d93';   // LED1
+  
+// Characteristic
+let message_Characteristic;
+let led1_Characteristic;  
+  
 //ボタンイベントリスナー
 d3.select("#connect").on("click", connect);
 d3.select("#disconnect").on("click", disconnect);   
@@ -57,12 +63,20 @@ function connect() {
   })
   .then(service => {
     console.log("service", service)
-    return service.getCharacteristic(CHARACTERISTIC_UUID)
+//  return service.getCharacteristic(CHARACTERISTIC_UUID)
+    return Promise.all([
+        service.getCharacteristic(MESSAGE_UUID),
+        service.getCharacteristic(LED1_UUID)    
+    
   })
-  .then(chara => {
-    console.log("characteristic", chara)
+  .then(characteristic  => {
+    console.log("characteristic")
     alert("BLE接続成功");
-    characteristic = chara;
+
+    message_Characteristic = characteristic[0];
+    sw_Characteristic = characteristic[1];
+
+      console.log("success:connect BLE");    
   })  
   .catch(error => {
     console.log(error);
@@ -71,16 +85,17 @@ function connect() {
  
 // メッセージを送信
 function sendMessage() {
-  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
+//  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
   var text = document.querySelector("#message").value;
   var arrayBuffe = new TextEncoder().encode(text);
-  characteristic.writeValue(arrayBuffe);        
+  message_Characteristic.writeValue(arrayBuffe);        
 } 
-// 16進数を送信
+// メッセージを送信
 function sendHex() {
-  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
-  var arrayBuffe = document.querySelector("#message").value;
-  characteristic.writeValue(arrayBuffe);        
+//  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
+  var text = document.querySelector("#message").value;
+  var arrayBuffe = new TextEncoder().encode(text);
+  sw_Characteristic.writeValue(arrayBuffe);        
 } 
  
 //BEL切断処理

@@ -7,7 +7,7 @@
 </head>
 
 <body>
-BLE_Test 001
+BLE_Test 002
 <br>
 <button id="connect">接続</button>
 <button id="disconnect">切断</button>
@@ -148,16 +148,18 @@ function send_led2_off() {
   if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
   led2_Characteristic.writeValue(new TextEncoder().encode("OFF"));        
 }
+
   
+// sw 受信  
 function get_sw() {
 let sw_val;
 
   try {
     sw_Characteristic.readValue()
       .then(value => {
-        sw_val = value.buffer;
-        console.log(new Uint8Array(sw_val));
-        document.querySelector("#val_sw").value = new TextDecoder("utf-8").decode(sw_val);
+         value.buffer = sw_val;
+        console.log(new Uint8Array(value.buffer));
+        document.querySelector("#val_sw").value = new TextDecoder("utf-8").decode(value.buffer);
       });
   }
   catch (e) {

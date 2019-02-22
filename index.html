@@ -157,9 +157,9 @@ let sw_val;
   try {
     sw_Characteristic.readValue()
       .then(value => {
-         value.buffer = sw_val;
-        console.log(new Uint8Array(value.buffer));
-        document.querySelector("#val_sw").value = new TextDecoder("utf-8").decode(value.buffer);
+         sw_val = value;
+        console.log(new Uint8Array(sw_val));
+        document.querySelector("#val_sw").value = new TextDecoder("utf-8").decode(sw_val);
       });
   }
   catch (e) {

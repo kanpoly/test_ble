@@ -7,7 +7,7 @@
 </head>
 
 <body>
-BLE_Test 00
+BLE_Test 001
 <br>
 <button id="connect">接続</button>
 <button id="disconnect">切断</button>
@@ -15,33 +15,56 @@ BLE_Test 00
 <br>
 メッセージ送信<br>
 <input id="message" value="hello" />
-<button id="send">送信</button>
+<button id="message_send">送信</button>
 <br>
-Hex送信<br>
-<input id="Hex" value="" />
-<button id="hexsend">送信</button>
+LED1<br>
+<button id="led1_send_on">ON</button> <button id="led1_send_off">OFF</button>
+<br>
+LED2<br>
+<button id="led2_send_on">ON</button> <button id="led2_send_off">OFF</button>
 
+  
 
-<script src="d3/d3.min.js"></script>    
+<script src="d3/d3.in.js"></script>    
 
 <script>
 var bluetoothDevice;
 var characteristic;
 // UUIDの登録
-var SERVICE_UUID         = '6926486a-34a8-11e9-b210-d663bd873d93';   // サービス
-var MESSAGE_UUID         = '692655f8-34a8-11e9-b210-d663bd873d93';   // メッセージ
-var LED1_UUID  		       = '692651b6-34a8-11e9-b210-d663bd873d93';   // LED1
+var SERVICE_UUID    = '6926486a-34a8-11e9-b210-d663bd873d93';   // サービス
+var SWITCH_UUID		  = '692655f8-34a8-11e9-b210-d663bd873d93';   // スイッチ
+var ADC_UUID  		  = '69264cd4-34a8-11e9-b210-d663bd873d93';   // A/D値
+var RESERVE_IN_UUID = '69264e1e-34a8-11e9-b210-d663bd873d93';   // 予備入力
+var MESSAGE_UUID  	= '692655f8-34a8-11e9-b210-d663bd873d93';   // メッセージ
+
+var LED1_UUID  		  = '692651b6-34a8-11e9-b210-d663bd873d93';   // LED1
+var LED2_UUID  		  = '6926530a-34a8-11e9-b210-d663bd873d93';   // LED2
+var RESERVE_OUT  	  = '6926544a-34a8-11e9-b210-d663bd873d93';   // 予備出力
   
 // Characteristic
+
+let sw_Characteristic;  
+let adc_Characteristic;  
+let reserve_in_Characteristic;
 let message_Characteristic;
-let led1_Characteristic;  
+  
+let led1_Characteristic;
+let led2_Characteristic;  
+let reserve_out_Characteristic;   
+  
   
 //ボタンイベントリスナー
 d3.select("#connect").on("click", connect);
 d3.select("#disconnect").on("click", disconnect);   
-d3.select("#send").on("click", sendMessage);    
-d3.select("#hexsend").on("click", sendHex);    
-//デバイスに接続する
+d3.select("#message_send").on("click", send_Message);    
+d3.select("#led1_send_on").on("click", send_led1_on);
+d3.select("#led1_send_off").on("click", send_led1_off);
+d3.select("#led2_send_on").on("click", send_led2_on); 
+d3.select("#led2_send_off").on("click", send_led2_off);  
+  
+  
+  
+  //デバイスに接続する
 function connect() {
   let options = {};
 //  options.acceptAllDevices = true;    // すべてのデバイスを表示
@@ -66,7 +89,8 @@ function connect() {
 //  return service.getCharacteristic(CHARACTERISTIC_UUID)
     return Promise.all([
         service.getCharacteristic(MESSAGE_UUID),
-        service.getCharacteristic(LED1_UUID)
+        service.getCharacteristic(LED1_UUID),
+        service.getCharacteristic(LED2_UUID),      
       
       ])
     
@@ -76,8 +100,9 @@ function connect() {
     alert("BLE接続成功");
 
     message_Characteristic = characteristic[0];
-    sw_Characteristic = characteristic[1];
-
+    led1_Characteristic = characteristic[1];
+    led2_Characteristic = characteristic[2];
+    
       console.log("success:connect BLE");    
   })  
   .catch(error => {
@@ -86,20 +111,37 @@ function connect() {
 }
  
 // メッセージを送信
-function sendMessage() {
-  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
+function send_Message() {
+  if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
   var text = document.querySelector("#message").value;
   var arrayBuffe = new TextEncoder().encode(text);
   message_Characteristic.writeValue(arrayBuffe);        
 } 
-// メッセージを送信
-function sendHex() {
-  if (!bluetoothDevice || !bluetoothDevice.gatt.connected || !characteristic) return ;
-  var text = document.querySelector("#message").value;
-  var arrayBuffe = new TextEncoder().encode(text);
-  sw_Characteristic.writeValue(arrayBuffe);        
+  
+// led1 on 送信
+function send_led1_on() {
+  if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
+  led1_Characteristic.writeValue(new TextEncoder().encode("ON"));        
 } 
- 
+  
+// led1 off 送信
+function send_led1_off() {
+  if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
+  led1_Characteristic.writeValue(new TextEncoder().encode("OFF"));        
+} 
+  
+// led2 on 送信
+function send_led2_on() {
+  if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
+  led2_Characteristic.writeValue(new TextEncoder().encode("ON"));        
+} 
+  
+// led2 off 送信
+function send_led2_off() {
+  if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
+  led2_Characteristic.writeValue(new TextEncoder().encode("OFF"));        
+}
+  
 //BEL切断処理
 function disconnect() {
   if (!bluetoothDevice || !bluetoothDevice.gatt.connected) return ;

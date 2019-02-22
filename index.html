@@ -70,7 +70,7 @@ function connect() {
     console.log("server", server)
     return server.getPrimaryService(SERVICE_UUID);
   })
-
+/*
   .then(service => {
     console.log("service", service);
  
@@ -84,7 +84,12 @@ function connect() {
 	 ])
 	 
   })
-  	
+ */ 
+  .then(service => {
+    console.log("service", service)
+    return service.getCharacteristic(SWITCH_UUID)
+  })	
+
   .then(chara => {
     console.log("characteristic", chara)
     alert("BLE接続成功");

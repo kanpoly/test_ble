@@ -22,9 +22,10 @@ LED1<br>
 <br>
 LED2<br>
 <button id="led2_send_on">ON</button> <button id="led2_send_off">OFF</button>
-  
+<br>
+SW状態<br>
 <input id="val_sw" value="0" />
-<button id="sw_get">SW状態受信</button>  
+<button id="sw_get">受信</button>  
   
 
   
@@ -152,7 +153,7 @@ function send_led2_off() {
   
 // sw 受信  
 function get_sw() {
-let sw_val;
+let sw_val=0;
 
   try {
     sw_Characteristic.readValue()

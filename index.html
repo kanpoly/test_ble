@@ -7,7 +7,7 @@
 </head>
 
 <body>
-BLE_Test 002
+BLE_Test 003
 <br>
 <br>  
 <button id="connect">接続</button>
@@ -15,11 +15,11 @@ BLE_Test 002
 <br>
 <br>
 LED1<br>
-<button id="led1_send_on">ON</button> <button id="led1_send_off">OFF</button>
+<button id="led1_send_on">ON</button>  <button id="led1_send_off">OFF</button>
 <br>
 <br>
 LED2<br>
-<button id="led2_send_on">ON</button> <button id="led2_send_off">OFF</button>
+<button id="led2_send_on">ON</button>  <button id="led2_send_off">OFF</button>
 <br>
 <br>
 SW状態<br>
@@ -27,9 +27,9 @@ SW状態<br>
 <button id="sw_get">受信</button>  
 <br>
 <br>
-メッセージ送信<br>
+メッセージ送受信<br>
 <input id="message" value="" />
-<button id="message_send">送信</button>
+<button id="message_send">送信</button>  <button id="message_rec">受信</button>  
 <br>  
 
   
@@ -63,13 +63,15 @@ let reserve_out_Characteristic;
   
 //ボタンイベントリスナー
 d3.select("#connect").on("click", connect);
-d3.select("#disconnect").on("click", disconnect);   
-d3.select("#message_send").on("click", send_Message);    
+d3.select("#disconnect").on("click", disconnect);
+d3.select("#message_send").on("click", send_Message);
+d3.select("#message_rec").on("click", rec_Message);  
 d3.select("#led1_send_on").on("click", send_led1_on);
 d3.select("#led1_send_off").on("click", send_led1_off);
-d3.select("#led2_send_on").on("click", send_led2_on); 
-d3.select("#led2_send_off").on("click", send_led2_off);  
-d3.select("#sw_get").on("click", get_sw);   
+d3.select("#led2_send_on").on("click", send_led2_on);
+d3.select("#led2_send_off").on("click", send_led2_off);
+d3.select("#sw_get").on("click", get_sw);
+  
   
   
   //デバイスに接続する
@@ -124,7 +126,7 @@ function connect() {
 // メッセージを送信
 function send_Message() {
   if (!bluetoothDevice || !bluetoothDevice.gatt.connected ) return ;
-  var text = document.querySelector("#message").value;
+  var text = document.querySelector("#val_message").value;
   var arrayBuffe = new TextEncoder().encode(text);
   message_Characteristic.writeValue(arrayBuffe);        
 } 
@@ -171,6 +173,23 @@ let sw_val=0;
   }
 }
   
+// messsage 受信  
+function rec_message() {
+let message_val=0;
+
+  try {
+    message_Characteristic.readValue()
+      .then(value => {
+         message_val = value;
+        console.log(new Uint8Array(sw_val));
+        document.querySelector("#val_message").value = new TextDecoder("utf-8").decode(message_val);
+      });
+  }
+  catch (e) {
+    console.log(e);
+  }
+}  
+
 //BEL切断処理
 function disconnect() {
   if (!bluetoothDevice || !bluetoothDevice.gatt.connected) return ;

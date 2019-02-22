@@ -9,24 +9,28 @@
 <body>
 BLE_Test 002
 <br>
+<br>  
 <button id="connect">接続</button>
 <button id="disconnect">切断</button>
 <br>
 <br>
-メッセージ送信<br>
-<input id="message" value="hello" />
-<button id="message_send">送信</button>
-<br>
 LED1<br>
 <button id="led1_send_on">ON</button> <button id="led1_send_off">OFF</button>
+<br>
 <br>
 LED2<br>
 <button id="led2_send_on">ON</button> <button id="led2_send_off">OFF</button>
 <br>
+<br>
 SW状態<br>
-<input id="val_sw" value="0" />
+<input id="val_sw" value="" />
 <button id="sw_get">受信</button>  
-  
+<br>
+<br>
+メッセージ送信<br>
+<input id="message" value="" />
+<button id="message_send">送信</button>
+<br>  
 
   
 
@@ -46,8 +50,7 @@ var LED1_UUID  		  = '692651b6-34a8-11e9-b210-d663bd873d93';   // LED1
 var LED2_UUID  		  = '6926530a-34a8-11e9-b210-d663bd873d93';   // LED2
 var RESERVE_OUT  	  = '6926544a-34a8-11e9-b210-d663bd873d93';   // 予備出力
   
-// Characteristic
-
+// キャラクタの登録
 let sw_Characteristic;  
 let adc_Characteristic;  
 let reserve_in_Characteristic;

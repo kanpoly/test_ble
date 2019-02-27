@@ -7,7 +7,7 @@
 </head>
 
 <body>
-BLE_Test 005
+BLE_Test 005.5
 <br>
 <br>  
 <button id="connect">接続</button>
@@ -161,12 +161,12 @@ function get_sw() {
 let sw_val=0;
 
   try {
-/*    sw_Characteristic.readValue()
+      sw_Characteristic.readValue()
       .then(value1 => {
          sw_val = value1;
         console.log(new Uint8Array(sw_val));
         document.querySelector("#val_sw").value = new TextDecoder("utf-8").decode(sw_val);
-      });   */
+      });   
   }
   catch (e) {
     console.log(e);

@@ -162,8 +162,8 @@ let sw_val=0;
 
   try {
     sw_Characteristic.readValue()
-      .then(value => {
-         sw_val = value;
+      .then(value1 => {
+         sw_val = value1;
         console.log(new Uint8Array(sw_val));
         document.querySelector("#val_sw").value = new TextDecoder("utf-8").decode(sw_val);
       });
@@ -179,8 +179,8 @@ let message_val=0;
 
   try {
     message_Characteristic.readValue()
-      .then(value => {
-         message_val = value;
+      .then(value2 => {
+         message_val = value2;
         console.log(new Uint8Array(message_val));
         document.querySelector("#message").value = new TextDecoder("utf-8").decode(message_val);
       });

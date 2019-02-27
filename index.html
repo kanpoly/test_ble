@@ -18,7 +18,7 @@ Copyright 2017 JellyWare Inc. All Rights Reserved.
 <div class="container">
     <div class="title margin">
         <p id="title">BlueJelly Sample</p>
-        <p id="subtitle">ConnectとUUID 001.2 </p>
+        <p id="subtitle">ConnectとUUID 001.3 </p>
     </div>
 
     <div class="contents margin">
@@ -85,11 +85,23 @@ window.onload = function(){
 //ボタンが押された時のイベント登録
 //--------------------------------------------------
 document.getElementById('scan').addEventListener('click', function() {
-      ble.scan(SERVICE_UUID);
+      ble.scan("SWITCH"    ); 
+      ble.scan("ADC"       ); 
+      ble.scan("RESERVE_IN");
+      ble.scan("MESSAGE"   );
+      ble.scan("LED1"      );
+      ble.scan("LED2"      );
+      ble.scan("RESERVE"   );
 });
 
 document.getElementById('connect').addEventListener('click', function(){
-      ble.connectGATT(SERVICE_UUID);
+      ble.connectGATT("SWITCH"    ); 
+      ble.connectGATT("ADC"       ); 
+      ble.connectGATT("RESERVE_IN");
+      ble.connectGATT("MESSAGE"   );
+      ble.connectGATT("LED1"      );
+      ble.connectGATT("LED2"      );
+      ble.connectGATT("RESERVE"   );
 });
     
     

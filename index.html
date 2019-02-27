@@ -18,7 +18,7 @@ Copyright 2017 JellyWare Inc. All Rights Reserved.
 <div class="container">
     <div class="title margin">
         <p id="title">BlueJelly Sample</p>
-        <p id="subtitle">ConnectとUUID</p>
+        <p id="subtitle">ConnectとUUID 001.1 </p>
     </div>
 
     <div class="contents margin">
@@ -43,20 +43,20 @@ Copyright 2017 JellyWare Inc. All Rights Reserved.
 var ble = new BlueJelly();
     
 const SERVICE_UUID    = '6926486a-34a8-11e9-b210-d663bd873d93';   // サービス
-const SWITCH_UUID	  = '692655f8-34a8-11e9-b210-d663bd873d93';   // スイッチ
-const ADC_UUID  	  = '69264cd4-34a8-11e9-b210-d663bd873d93';   // A/D値
+const SWITCH_UUID	    = '692655f8-34a8-11e9-b210-d663bd873d93';   // スイッチ
+const ADC_UUID  	    = '69264cd4-34a8-11e9-b210-d663bd873d93';   // A/D値
 const RESERVE_IN_UUID = '69264e1e-34a8-11e9-b210-d663bd873d93';   // 予備入力
 const MESSAGE_UUID    = '692655f8-34a8-11e9-b210-d663bd873d93';   // メッセージ
 
-const LED1_UUID  	  = '692651b6-34a8-11e9-b210-d663bd873d93';   // LED1
-const LED2_UUID  	  = '6926530a-34a8-11e9-b210-d663bd873d93';   // LED2
+const LED1_UUID  	    = '692651b6-34a8-11e9-b210-d663bd873d93';   // LED1
+const LED2_UUID  	    = '6926530a-34a8-11e9-b210-d663bd873d93';   // LED2
 const RESERVE_OUT  	  = '6926544a-34a8-11e9-b210-d663bd873d93';   // 予備出力   
     
 //--------------------------------------------------
 //Scan後の処理
 //--------------------------------------------------
-ble.onScan = function (deviceName) {
-  document.getElementById('device_name').innerHTML = deviceName;
+ble.onScan = function (SERVICE_UUID) {
+  document.getElementById('device_name').innerHTML = SERVICE_UUID;
   document.getElementById('status').innerHTML = "found device!";
 }
     

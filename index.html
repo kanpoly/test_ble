@@ -55,8 +55,8 @@ const RESERVE_OUT  	  = '6926544a-34a8-11e9-b210-d663bd873d93';   // 予備出�
 //--------------------------------------------------
 //Scan後の処理
 //--------------------------------------------------
-ble.onScan = function (SERVICE_UUID) {
-  document.getElementById('device_name').innerHTML = SERVICE_UUID;
+ble.onScan = function (deviceName) {
+  document.getElementById('device_name').innerHTML = deviceName;
   document.getElementById('status').innerHTML = "found device!";
 }
     
@@ -85,11 +85,11 @@ window.onload = function(){
 //ボタンが押された時のイベント登録
 //--------------------------------------------------
 document.getElementById('scan').addEventListener('click', function() {
-      ble.scan('SWITCH');
+      ble.scan(SERVICE_UUID);
 });
 
 document.getElementById('connect').addEventListener('click', function(){
-      ble.connectGATT('SWITCH');
+      ble.connectGATT(SERVICE_UUID);
 });
     
     
